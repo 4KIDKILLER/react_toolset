@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import { Card, Button, Divider } from "animal-island-ui";
 import Icon from "@/components/Icon";
@@ -33,7 +33,7 @@ const SidebarContent = ({
   onLogout,
 }: SidebarContentProps) => (
   <>
-    <div className="border-b-2 border-dashed border-[#d9c89a]">
+    <div className="toolset-wrapper border-b-2 border-dashed border-[#d9c89a]">
       <div className="flex items-center gap-3 rounded-2xl bg-[#fdf6dc] p-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f7cd67] text-lg font-bold text-[#725d42] shadow-[0_3px_0_rgba(154,131,90,0.45)]">
           {username?.charAt(0).toUpperCase()}
@@ -84,25 +84,11 @@ const Layout = () => {
   const { user, logout } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  useEffect(() => {
-    if (!drawerOpen) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDrawerOpen(false);
-    };
-    window.addEventListener("keydown", handleKey);
-    const original = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = original;
-    };
-  }, [drawerOpen]);
-
   const currentTitle =
     NAV_ITEMS.find((item) => item.to === location.pathname)?.label ?? "小岛";
 
   return (
-    <div className="flex h-screen w-full bg-linear-to-br from-[#fdf6dc] via-[#f3e7c4] to-[#e8dab1]">
+    <div className="flex h-dvh w-full bg-linear-to-br from-[#fdf6dc] via-[#f3e7c4] to-[#e8dab1]">
       <aside className="m-4 z-10 hidden w-64 flex-col overflow-hidden rounded-3xl border-2 border-[#d9c89a] bg-[#f7f3df] shadow-[0_6px_0_rgba(154,131,90,0.35)] md:flex">
         <SidebarContent
           username={user?.username}
@@ -113,7 +99,7 @@ const Layout = () => {
       </aside>
 
       <main className="relative flex flex-1 flex-col overflow-hidden">
-        <header className="flex items-center justify-between border-b-2 border-dashed border-[#d9c89a] bg-[#f7f3df]/80 px-4 py-3 backdrop-blur md:hidden">
+        <header className="h-[60px] flex items-center justify-between border-b-2 border-dashed border-[#d9c89a] bg-[#f7f3df]/80 backdrop-blur md:hidden pt-(--safe-area-inset-top) pl-[max(16px,var(--safe-area-inset-left))] pr-[max(16px,var(--safe-area-inset-right))]">
           <div className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f7cd67] text-base font-bold text-[#725d42] shadow-[0_2px_0_rgba(154,131,90,0.45)]">
               {user?.username.charAt(0).toUpperCase()}
@@ -142,14 +128,16 @@ const Layout = () => {
           </button>
         </header>
 
-        <div className="flex-1 overflow-y-auto pt-4 pr-4 pb-4">
-          <Card>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Card>
+        <div className="flex-1 overflow-y-auto box-border pb-(--safe-area-inset-bottom) pl-(--safe-area-inset-left) pr-(--safe-area-inset-right)">
+          <div className="pb-4 pt-4 pr-4 max-md:pl-4">
+            <Card>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Card>
+          </div>
         </div>
       </main>
 
@@ -164,7 +152,7 @@ const Layout = () => {
       />
 
       <aside
-        className={`fixed top-0 right-0 z-50 flex h-full w-72 max-w-[85vw] flex-col overflow-hidden border-l-2 border-[#d9c89a] bg-[#f7f3df] transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed top-0 right-0 z-50 flex h-full w-72 max-w-[85vw] flex-col overflow-hidden border-l-2 border-[#d9c89a] bg-[#f7f3df] transition-transform duration-300 ease-out md:hidden pt-(--safe-area-inset-top) pb-(--safe-area-inset-bottom) pr-(--safe-area-inset-right) ${
           drawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"

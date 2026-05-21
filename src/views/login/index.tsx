@@ -11,6 +11,7 @@ import {
   Typewriter,
 } from 'animal-island-ui';
 import { useAuth } from '@/contexts';
+import SafeArea from '@/components/SafeArea';
 
 const Login = () => {
   const [username, setUsername] = useState('admin');
@@ -42,8 +43,8 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-between overflow-hidden bg-linear-to-b from-[#b9e3f0] via-[#cdeac4] to-[#f3e7c4]">
-      <main className="z-10 w-full max-w-[460px] px-5 pt-16">
+    <SafeArea className="relative min-h-dvh flex flex-col items-center justify-between overflow-hidden bg-linear-to-b from-[#b9e3f0] via-[#cdeac4] to-[#f3e7c4] bg-lime-100">
+      <main className="z-10 w-full max-w-[460px] px-5 pt-8 sm:pt-16">
         <div className="mb-6 text-center">
           <div className="mb-2 text-[56px] leading-none drop-shadow-[0_6px_0_rgba(114,93,66,0.18)]">
             🏝️
@@ -148,7 +149,7 @@ const Login = () => {
       </main>
 
       <Footer type="tree" className="z-0 w-full" />
-    </div>
+    </SafeArea>
   );
 };
 
